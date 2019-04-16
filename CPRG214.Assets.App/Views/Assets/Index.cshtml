@@ -1,0 +1,117 @@
+﻿@model IEnumerable<CPRG214.Assets.App.Models.AssetsViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var idSelected;
+            $("#uxAssetTypes").change(function () {
+                if ($(this).val() === '-1') {
+                    idSelected = -1;
+                } else {
+                    idSelected = 0;
+                }
+            })
+
+            $("#uxGetAssetByType").click(function () {
+                $(".table").hide();
+                var AssetTypeId = $("#uxAssetTypes").val();
+                if (idSelected === -1) {
+                    $("#uxTitle").text("All Assets:")
+                    $.ajax({
+                        method: 'GET',
+                        url: '/Assets/GetAssetsByAssetType',
+                        data: { id: idSelected }
+                    }).done(function (result, statusText, xhdr) {
+                        $("#uxFilteredAssets").html(result);
+                    });
+                } else {
+                    $("#uxTitle").text("Assets By Asset Type:")
+                    $.ajax({
+                        method: 'GET',
+                        url: '/Assets/GetAssetsByAssetType',
+                        data: { id: AssetTypeId }
+                    }).done(function (result, statusText, xhdr) {
+                        $("#uxFilteredAssets").html(result);
+                    });
+                }
+            });
+        });
+    </script>
+}
+<h2>Assets</h2>
+
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div>
+    <select id="uxAssetTypes" asp-items="ViewBag.AssetTypes">
+        <option id="uxShowAll"value="-1">Show All Assets</option>
+    </select>
+    <button id="uxGetAssetByType">Get Assets By Asset Type</button>
+</div>
+
+<h3 id="uxTitle">All Assets:</h3>
+<div id="uxFilteredAssets">
+
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TagNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssetTypes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Manufacturer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SerialNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TagNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssetTypes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Manufacturer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerialNumber)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
