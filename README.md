@@ -8,7 +8,7 @@ A web application that is able to list all asset types in the system as well a p
 viewing all assets that can be filtered by asset type
 
 ### Assets
-Assets are asynchronous filtered using Jquery AJAX method
+Assets are asynchronous filtered using JQuery AJAX and View Component 
 
 <img src="screenshots/allAssets.png" alt="assets">
 
